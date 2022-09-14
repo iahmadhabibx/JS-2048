@@ -15,9 +15,6 @@ body {
 }
 
 #game-board {
-    --grid-size: 4;
-    --cell-size: 20vmin;
-    --cell-gap: 2vmin;
     position: relative;
     display: grid;
     grid-template-columns: repeat(var(--grid-size), var(--cell-size));
@@ -41,8 +38,8 @@ body {
     width: var(--cell-size);
     height: var(--cell-size);
     border-radius: 1vmin;
-    top: calc(var(--y) * (var(--cell-size) + var(--cell-gap) + var(--cell-gap)));
-    top: calc(var(--x) * (var(--cell-size) + var(--cell-gap) + var(--cell-gap)));
+    top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
+    left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     font-weight: bold;
     background-color: hsl(200, 50%, var(--background-lightness));
     color: hsl(200, 25%, var(--text-lightness));

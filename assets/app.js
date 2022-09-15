@@ -6,7 +6,7 @@ console.info("%c 2048 by Ahmad Habib", "background: #000; color: #fff; border-ra
 const score = document.getElementById("score");
 score.textContent = 0;
 
-document.getElementById("restart").addEventListener("click", ()=>window.location.reload())
+document.getElementById("restart").addEventListener("click", () => window.location.reload())
 
 const gameBoard = document.getElementById("game-board");
 const grid = new Grid(gameBoard);
@@ -18,40 +18,46 @@ const setupInput = () => {
 };
 
 const handleInput = async (e) => {
+    let availableForMove = true;
     switch (e.key) {
         case "ArrowUp":
             if (!canMoveUp()) {
                 setupInput();
                 return;
             }
-
-            await moveUp()
+            availableForMove = true;
+            await moveUp();
             break;
         case "ArrowDown":
             if (!canMoveDown()) {
                 setupInput();
                 return;
             }
-            await moveDown()
+            availableForMove = true;
+            await moveDown();
             break;
         case "ArrowLeft":
             if (!canMoveLeft()) {
                 setupInput();
                 return;
             }
-            await moveLeft()
+            availableForMove = true;
+            await moveLeft();
             break;
         case "ArrowRight":
             if (!canMoveRight()) {
                 setupInput();
                 return;
             }
-            await moveRight()
+            availableForMove = true;
+            await moveRight();
             break;
         default:
+            availableForMove = false;
             setupInput();
             break;
     }
+    if (!availableForMove) return;
     grid.cells.forEach(cell => cell.mergeTiles());
     const newTile = new Tile(gameBoard);
     grid.randomEmptyCell().tile = newTile;

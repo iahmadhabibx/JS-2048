@@ -1,6 +1,13 @@
 import Grid from "./Grid.js";
 import Tile from "./Tile.js";
 
+console.info("%c 2048 by Ahmad Habib", "background: #000; color: #fff; border-radius: 6px;padding: 10px; font-size: 20px")
+
+const score = document.getElementById("score");
+score.textContent = 0;
+
+document.getElementById("restart").addEventListener("click", ()=>window.location.reload())
+
 const gameBoard = document.getElementById("game-board");
 const grid = new Grid(gameBoard);
 grid.randomEmptyCell().tile = new Tile(gameBoard);
@@ -49,7 +56,22 @@ const handleInput = async (e) => {
     const newTile = new Tile(gameBoard);
     grid.randomEmptyCell().tile = newTile;
     if (!canMoveUp() && !canMoveDown() && !canMoveRight() && !canMoveLeft()) {
-        newTile.waitForTransition(true).then(() => alert("You Lost"))
+        newTile.waitForTransition(true).then(() => {
+            let highScore = localStorage.getItem("highscore");
+            if (highScore && Number(highScore)) {
+                if (Number(highScore) < Number(score.textContent)) {
+                    localStorage.setItem("highscore", score.textContent);
+                    alert(`Wow! you just made your new high score: ${score.textContent}`);
+                }
+                else if (Number(highScore) == Number(score.textContent))
+                    alert(`Wow! you just equal your high score: ${score.textContent}`);
+                else
+                    alert(`You scored: ${score.textContent}`);
+            } else {
+                localStorage.setItem("highscore", score.textContent);
+                alert(`Wow! you just made your new high score: ${score.textContent}`);
+            }
+        })
         return
     }
 
@@ -57,15 +79,19 @@ const handleInput = async (e) => {
 };
 
 const moveUp = () => {
+    evaluateScore();
     return slideTiles(grid.cellsByColumn);
 };
 const moveDown = () => {
+    evaluateScore();
     return slideTiles(grid.cellsByColumn.map(column => [...column].reverse()));
 };
 const moveRight = () => {
+    evaluateScore();
     return slideTiles(grid.cellsByRow.map(row => [...row].reverse()));
 };
 const moveLeft = () => {
+    evaluateScore();
     return slideTiles(grid.cellsByRow);
 };
 
@@ -122,6 +148,16 @@ const canMove = (cells) => {
             return moveToCell.canAccept(cell.tile);
         });
     })
+}
+
+const evaluateScore = () => {
+    let currentScore = Number(score.textContent);
+    currentScore += 2;
+    score.textContent = currentScore;
+    score.classList.add("animate-text");
+    setTimeout(() => {
+        score.classList.remove("animate-text");
+    }, 200)
 }
 
 setupInput();

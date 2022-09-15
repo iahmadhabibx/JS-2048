@@ -11,7 +11,41 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 20px;
     font-size: 7.5vmin;
+    flex-direction: column;
+}
+
+button.restart {
+    background: #333333;
+    border: none;
+    cursor: pointer;
+}
+
+button.restart img:hover {
+    transform: rotate(180deg);
+}
+
+button.restart img {
+    width: 30px;
+    transition: transform 0.2s linear;
+}
+
+.score {
+    background-color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 120px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+    padding: 0 0 0 10px;
+}
+#score {
+    position: absolute;
+    right: 10px;
 }
 
 #game-board {
@@ -47,9 +81,22 @@ body {
     transition: 100ms ease-in-out;
 }
 
+.animate-text {
+    animation: fontAnimate 0.1s ease-out;
+}
+
 @keyframes show {
     0% {
         opacity: .5;
         transform: scale(0);
+    }
+}
+
+@keyframes fontAnimate {
+    0% {
+        font-size: 22px;
+    }
+    100% {
+        font-size: 16px;
     }
 }

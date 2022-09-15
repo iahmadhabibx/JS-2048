@@ -4,7 +4,12 @@ import Tile from "./Tile.js";
 console.info("%c 2048 by Ahmad Habib", "background: #000; color: #fff; border-radius: 6px;padding: 10px; font-size: 20px")
 
 const score = document.getElementById("score");
+const previousHigh = document.getElementById("previous-high");
 score.textContent = 0;
+if (localStorage.getItem("highscore"))
+    previousHigh.textContent = localStorage.getItem("highscore");
+else
+    previousHigh.textContent = "0";
 
 document.getElementById("restart").addEventListener("click", () => window.location.reload())
 
@@ -20,7 +25,7 @@ let arrows = document.querySelectorAll(".arrow");
 arrows.forEach(arrow => {
     arrow.addEventListener("click", (e) => {
         let key = arrow.getAttribute("data-key");
-        handleInput({key})
+        handleInput({ key })
     })
 })
 
@@ -165,8 +170,14 @@ const canMove = (cells) => {
 
 const evaluateScore = () => {
     let currentScore = Number(score.textContent);
-    currentScore += 2;
+    currentScore += 5;
     score.textContent = currentScore;
+    if (localStorage.getItem("highscore")) {
+        if (Number(currentScore) > Number(localStorage.getItem("highscore")))
+            previousHigh.textContent = currentScore;
+    }
+    else
+        previousHigh.textContent = currentScore;
     score.classList.add("animate-text");
     setTimeout(() => {
         score.classList.remove("animate-text");

@@ -10,23 +10,47 @@ const setupInput = () => {
     window.addEventListener("keydown", handleInput, { once: true });
 };
 
-const handleInput = (e) => {
+const handleInput = async (e) => {
     switch (e.key) {
         case "ArrowUp":
-            moveUp()
+            if (!canMoveUp()) {
+                setupInput();
+                return;
+            }
+
+            await moveUp()
             break;
         case "ArrowDown":
-            moveDown()
+            if (!canMoveDown()) {
+                setupInput();
+                return;
+            }
+            await moveDown()
             break;
         case "ArrowLeft":
-            moveLeft()
+            if (!canMoveLeft()) {
+                setupInput();
+                return;
+            }
+            await moveLeft()
             break;
         case "ArrowRight":
-            moveRight()
+            if (!canMoveRight()) {
+                setupInput();
+                return;
+            }
+            await moveRight()
             break;
         default:
             setupInput();
             break;
+    }
+    grid.cells.forEach(cell => cell.mergeTiles());
+    const newTile = new Tile(gameBoard);
+    grid.randomEmptyCell().tile = newTile;
+    if (!canMoveUp() && !canMoveDown() && !canMoveRight() && !canMoveLeft()) {
+        newTile.waitForTransition(true).then(() => alert("You Lost"))
+        return
     }
 
     setupInput();
@@ -35,31 +59,69 @@ const handleInput = (e) => {
 const moveUp = () => {
     return slideTiles(grid.cellsByColumn);
 };
+const moveDown = () => {
+    return slideTiles(grid.cellsByColumn.map(column => [...column].reverse()));
+};
+const moveRight = () => {
+    return slideTiles(grid.cellsByRow.map(row => [...row].reverse()));
+};
+const moveLeft = () => {
+    return slideTiles(grid.cellsByRow);
+};
 
 const slideTiles = (cells) => {
-    cells.forEach(group => {
-        for (let i = 1; i < group.length; i++) {
-            const cell = group[i];
-            if(cell.tile == null) continue;
-            let lastValidCell;
-            for (let j = i - 1; j >= 0; j--) {
-                const moveInCell = group[j];
-                if (!moveInCell.canAccept(cell.tile)) break;
-                lastValidCell = moveInCell;
-            }
-
-
-            if (lastValidCell != null) {
-                if (lastValidCell.tile != null) {
-                    lastValidCell.mergeTile = cell.tile;
-                } else {
-                    lastValidCell.tile = cell.tile;
+    return Promise.all(
+        cells.flatMap(group => {
+            const promises = [];
+            for (let i = 1; i < group.length; i++) {
+                const cell = group[i];
+                if (cell.tile == null) continue;
+                let lastValidCell;
+                for (let j = i - 1; j >= 0; j--) {
+                    const moveInCell = group[j];
+                    if (!moveInCell.canAccept(cell.tile)) break;
+                    lastValidCell = moveInCell;
                 }
 
-                cell.tile = null;
+
+                if (lastValidCell != null) {
+                    promises.push(cell.tile.waitForTransition())
+                    if (lastValidCell.tile != null) {
+                        lastValidCell.mergeTile = cell.tile;
+                    } else {
+                        lastValidCell.tile = cell.tile;
+                    }
+
+                    cell.tile = null;
+                }
             }
-        }
-    })
+            return promises;
+        })
+    )
 };
+
+const canMoveUp = () => {
+    return canMove(grid.cellsByColumn);
+}
+const canMoveDown = () => {
+    return canMove(grid.cellsByColumn.map(column => [...column].reverse()));
+}
+const canMoveLeft = () => {
+    return canMove(grid.cellsByRow);
+}
+const canMoveRight = () => {
+    return canMove(grid.cellsByRow.map(row => [...row].reverse()));
+}
+
+const canMove = (cells) => {
+    return cells.some(group => {
+        return group.some((cell, index) => {
+            if (index === 0) return false;
+            if (cell.tile == null) return false;
+            const moveToCell = group[index - 1];
+            return moveToCell.canAccept(cell.tile);
+        });
+    })
+}
 
 setupInput();

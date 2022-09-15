@@ -16,6 +16,13 @@ grid.randomEmptyCell().tile = new Tile(gameBoard);
 const setupInput = () => {
     window.addEventListener("keydown", handleInput, { once: true });
 };
+let arrows = document.querySelectorAll(".arrow");
+arrows.forEach(arrow => {
+    arrow.addEventListener("click", (e) => {
+        let key = arrow.getAttribute("data-key");
+        handleInput({key})
+    })
+})
 
 const handleInput = async (e) => {
     let availableForMove = true;

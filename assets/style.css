@@ -85,6 +85,26 @@ button.restart img {
     animation: fontAnimate 0.1s ease-out;
 }
 
+/* Arrow Keys */
+.keys-container {
+    display: none;
+}
+.keys-container .row {
+    text-align: center;
+}
+.keys-container .row img {
+    background: #aaaaaa;
+    border-radius: 4px;
+    box-shadow: 1px 1px 2px 0px #cccccc;
+    cursor: pointer;
+    transition: transform 0.1s linear;
+}
+
+.keys-container .row img:hover {
+    transform: scale(1.05);
+}
+
+/* Animation Keyframes */
 @keyframes show {
     0% {
         opacity: .5;
@@ -98,5 +118,11 @@ button.restart img {
     }
     100% {
         font-size: 16px;
+    }
+}
+
+@media(max-width: 1000px) {
+    .keys-container {
+        display: block;
     }
 }

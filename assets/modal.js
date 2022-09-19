@@ -91,7 +91,7 @@ const onStartGame = async () => {
     }
 };
 
-const updateHighScore = (score) => {
+const updateHighScore = async (score) => {
     let player = localStorage.getItem("player-info");
     player = JSON.parse(player);
     let room = localStorage.getItem("leader-board");
@@ -103,7 +103,20 @@ const updateHighScore = (score) => {
         gamePlayer: player,
         roomId: room._id
     }
-    postRequest(data, `${URL}/updateHighScore`);
+    let _data = await postRequest(data, `${URL}/updateHighScore`);
+    localStorage.setItem("leader-board", JSON.stringify(_data));
+    bootstrapLeaderBoard();
+}
+
+const refetchData =  async () => {
+    let room = localStorage.getItem("leader-board");
+    room = JSON.parse(room);
+    let data = {
+        id: room._id
+    }
+    let _data = await postRequest(data, `${URL}/checkRoom`);
+    localStorage.setItem("leader-board", JSON.stringify(_data));
+    bootstrapLeaderBoard();
 }
 
 const postRequest = (data, url) => {
@@ -131,7 +144,7 @@ const postRequest = (data, url) => {
 
 const toggleClick = (e) => {
     let elem = document.getElementById("toggle");
-    if(elem.toggled == "true") {
+    if (elem.toggled == "true") {
         elem.toggled = "false";
         elem.src = "./assets/images/expand.png";
     }

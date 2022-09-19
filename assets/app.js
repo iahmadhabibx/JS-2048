@@ -82,10 +82,14 @@ const handleInput = async (e) => {
                     alert(`Wow! you just made your new high score: ${score.textContent}`);
                     updateHighScore(score.textContent);
                 }
-                else if (Number(highScore) == Number(score.textContent))
+                else if (Number(highScore) == Number(score.textContent)) {
+                    refetchData();
                     alert(`Wow! you just equal your high score: ${score.textContent}`);
-                else
+                }
+                else {
+                    refetchData();
                     alert(`You scored: ${score.textContent}`);
+                }
             } else {
                 localStorage.setItem("highscore", score.textContent);
                 alert(`Wow! you just made your new high score: ${score.textContent}`);

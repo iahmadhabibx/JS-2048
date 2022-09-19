@@ -129,10 +129,29 @@ const postRequest = (data, url) => {
     })
 }
 
+const toggleClick = (e) => {
+    let elem = document.getElementById("toggle");
+    if(elem.toggled == "true") {
+        elem.toggled = "false";
+        elem.src = "./assets/images/expand.png";
+    }
+    else {
+        elem.toggled = "true";
+        elem.src = "./assets/images/shrink.png";
+    }
+    document.querySelector(".leader-board").classList.toggle("toggled");
+}
 
 const createLeaderBoard = (room) => {
     let div = document.createElement("div");
     div.classList.add("leader-board");
+
+    const toggleIcon = document.createElement("img");
+    toggleIcon.src = "./assets/images/shrink.png";
+    toggleIcon.id = "toggle";
+    toggleIcon.toggled = "true";
+    toggleIcon.addEventListener("click", toggleClick);
+    div.appendChild(toggleIcon);
 
     let h3 = document.createElement("h3");
     h3.classList.add("board-title");
@@ -160,6 +179,7 @@ const createLeaderBoard = (room) => {
 const bootstrapLeaderBoard = async () => {
     let leadersboard = localStorage.getItem("leader-board");
     let player = localStorage.getItem("player-info");
+
     if (!leadersboard) modal.style.display = "block";
     else {
         player = JSON.parse(player);

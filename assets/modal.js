@@ -6,7 +6,7 @@ const continueGame = document.getElementById("continue-game");
 const modal = document.querySelector(".modal-container");
 const leaderBoard = document.getElementById("leader-board");
 
-const URL = "http://localhost:8080/room";
+const URL = "https://api-2048.herokuapp.com/room";
 
 let currentRoom = null;
 

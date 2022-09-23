@@ -6,13 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="./assets/images/favicon.png">
-    <link rel="stylesheet" href="./assets//style.css">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="./assets/modal.css">
     <script src="./assets/app.js" type="module"></script>
+    <script src="./assets/modal.js" defer></script>
     <title>2048</title>
 </head>
 
 <body>
-    <button class="restart" title="Restart" id="restart"><img src="./assets/images/restart.png" alt="Resatrt Game"></button>
+    <button class="restart" title="Restart" id="restart"><img src="./assets/images/restart.png"
+            alt="Resatrt Game"></button>
     <div class="score">
         <div>To beat: <span id="previous-high"></span></div>
     </div>
@@ -32,6 +35,59 @@
             <img class="arrow" data-key="ArrowDown" src="./assets/images/arrow-keys/down.png" alt="Down key">
         </div>
     </div>
+
+
+    <!-- Modal -->
+    <section class="modal-container">
+        <div class="modal-wrapper">
+            <div class="backdrop"></div>
+            <div class="modal">
+                <main id="existing-room">
+                    <div class="segment">
+                        <label for="roomId" placeholder="e.g room1">Enter room ID</label>
+                        <input type="text" id="roomId">
+                    </div>
+                    <button class="btn save-btn" id="check-room">Check Room</button>
+                    <div class="or">OR</div>
+                    <button class="btn create-btn" id="create-room">Create a new room</button>
+                </main>
+               
+                <main id="new-room-form">
+                    <div class="segment">
+                        <label for="new-name" placeholder="e.g John">Enter your name</label>
+                        <input type="text" id="new-name">
+                    </div>
+                    <div class="segment">
+                        <label for="new-name" placeholder="e.g 000">Enter room code</label>
+                        <input type="text" id="new-code">
+                    </div>
+
+                    <button class="btn create-btn" id="start-game">Start Game</button>
+                    <button class="btn cancel-btn" id="cancel-step">Cancel</button>
+                </main>
+                
+                <main id="code-form">
+                    <div class="segment">
+                        <label for="name" placeholder="e.g John">Enter your name</label>
+                        <input type="text" id="name">
+                    </div>
+
+                    <div class="segment">
+                        <label for="code" placeholder="e.g 000">Enter room code</label>
+                        <input type="text" id="code">
+                    </div>
+
+                    <button class="btn create-btn" id="continue-game">Start Game</button>
+                </main>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Leader Board -->
+    <main id="leader-board"></main>
+
 </body>
 
 </html>

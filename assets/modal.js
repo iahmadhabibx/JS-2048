@@ -108,7 +108,7 @@ const updateHighScore = async (score) => {
     bootstrapLeaderBoard();
 }
 
-const refetchData =  async () => {
+const refetchData = async () => {
     let room = localStorage.getItem("leader-board");
     room = JSON.parse(room);
     let data = {
@@ -166,10 +166,17 @@ const createLeaderBoard = (room) => {
     toggleIcon.addEventListener("click", toggleClick);
     div.appendChild(toggleIcon);
 
+    // Title
     let h3 = document.createElement("h3");
     h3.classList.add("board-title");
-    h3.textContent = "Leader Board"
+    h3.textContent = "Leader Board";
     div.appendChild(h3);
+
+    // Room Name
+    let divRoom = document.createElement("div");
+    divRoom.classList.add("room-name")
+    divRoom.textContent = `${room.roomId} ---- ${room.code}`;
+    div.appendChild(divRoom);
 
     room.players.forEach((player, i) => {
         let holder = document.createElement("div");

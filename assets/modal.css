@@ -139,3 +139,8 @@ input {
 .btn {
     width: 100%;
 }
+
+.room-name {
+    font-size: 1.5vmin;
+    text-align: center;
+}

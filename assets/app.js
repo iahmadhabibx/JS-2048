@@ -79,9 +79,9 @@ const handleInput = async (e) => {
             if (highScore && Number(highScore)) {
                 if (Number(highScore) < Number(score.textContent)) {
                     localStorage.setItem("highscore", score.textContent);
-                    alert(`Wow! you just made your new high score: ${score.textContent}`);
                     console.log('call 1');
                     updateHighScore(score.textContent);
+                    alert(`Wow! you just made your new high score: ${score.textContent}`);
                 }
                 else if (Number(highScore) == Number(score.textContent)) {
                     refetchData();
@@ -93,9 +93,9 @@ const handleInput = async (e) => {
                 }
             } else {
                 localStorage.setItem("highscore", score.textContent);
-                alert(`Wow! you just made your new high score: ${score.textContent}`);
-                console.log("call");
                 updateHighScore(score.textContent);
+                console.log("call");
+                alert(`Wow! you just made your new high score: ${score.textContent}`);
             }
         });
         return

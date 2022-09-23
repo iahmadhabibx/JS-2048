@@ -80,6 +80,7 @@ const handleInput = async (e) => {
                 if (Number(highScore) < Number(score.textContent)) {
                     localStorage.setItem("highscore", score.textContent);
                     alert(`Wow! you just made your new high score: ${score.textContent}`);
+                    console.log('call 1');
                     updateHighScore(score.textContent);
                 }
                 else if (Number(highScore) == Number(score.textContent)) {
@@ -93,6 +94,7 @@ const handleInput = async (e) => {
             } else {
                 localStorage.setItem("highscore", score.textContent);
                 alert(`Wow! you just made your new high score: ${score.textContent}`);
+                console.log("call");
                 updateHighScore(score.textContent);
             }
         });

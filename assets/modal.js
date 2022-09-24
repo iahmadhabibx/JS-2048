@@ -36,7 +36,8 @@ const onStartExistingGame = async () => {
     try {
         let name = document.getElementById("name");
         let code = document.getElementById("code");
-
+        if (!name.value.trim() || !code.value.trim())
+            return alert("Can not leave these fields empty!");
         const data = {
             code: code.value.trim(),
             player: { name: name.value.trim(), highScore: "0", isOwner: false },
@@ -56,6 +57,8 @@ const onStartExistingGame = async () => {
 const checkRoom = async () => {
     try {
         let roomId = document.getElementById("roomId");
+        if (!roomId.value.trim())
+            return alert("Can not leave this field empty!");
         const data = { id: roomId.value };
         const results = await postRequest(data, `${URL}/checkRoom`);
         currentRoom = results;
@@ -75,9 +78,11 @@ const onStartGame = async () => {
     try {
         let name = document.getElementById("new-name");
         let code = document.getElementById("new-code");
+        if (!name.value.trim() || !code.value.trim())
+            return alert("Can not leave these fields empty!");
         const data = {
             code: code.value.trim(),
-            players: [{ name: name.value.trim(), highScore: "0", isOwner: true }],
+            players: [{ name: name.value.trim().toLowerCase(), highScore: "0", isOwner: true }],
             createdBy: { name: name.value.trim(), highScore: "0", isOwner: true },
             leader: null
         }
@@ -85,6 +90,7 @@ const onStartGame = async () => {
         modal.style.display = "none";
         localStorage.setItem("leader-board", JSON.stringify(results));
         localStorage.setItem("player-info", JSON.stringify({ name: name.value.trim(), highScore: "0", isOwner: true }));
+        alert(`Your room name is: room-${name.value.trim().toLowerCase()}`)
         createLeaderBoard(results);
     } catch (error) {
         alert(error)

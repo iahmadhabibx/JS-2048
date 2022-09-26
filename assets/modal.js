@@ -87,14 +87,14 @@ const onStartGame = async () => {
             leader: null
         }
         const results = await postRequest(data, URL);
+        console.log("res", results);
         modal.style.display = "none";
         localStorage.setItem("leader-board", JSON.stringify(results));
         localStorage.setItem("player-info", JSON.stringify({ name: name.value.trim(), highScore: "0", isOwner: true }));
         alert(`Your room name is: room-${name.value.trim().toLowerCase()}`)
         createLeaderBoard(results);
     } catch (error) {
-        console.error(error);
-        alert(error?.message || error);
+        alert("Room already exists");
     }
 };
 

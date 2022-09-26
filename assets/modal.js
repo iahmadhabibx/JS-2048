@@ -93,7 +93,8 @@ const onStartGame = async () => {
         alert(`Your room name is: room-${name.value.trim().toLowerCase()}`)
         createLeaderBoard(results);
     } catch (error) {
-        alert(error)
+        console.error(error);
+        alert(error?.message || error);
     }
 };
 
